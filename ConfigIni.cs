@@ -207,6 +207,7 @@ namespace com.clusterrr.hakchi_gui
         public bool CompressCover = true;
         public bool CenterThumbnail = false;
         public bool DisablePopups = false;
+        public bool IncludeCachedGames = true;
         public bool SeparateGameStorage = true;
         public bool SyncLinked = true;
         public bool FtpServer = false;
@@ -434,21 +435,20 @@ namespace com.clusterrr.hakchi_gui
                                         break;
                                     case "hiddengames":
                                         list = value.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToList();
-                                        instance.gamesCollectionSettings[hakchi.ConsoleType.NES].OriginalGames = NesApplication.defaultNesGames.Select(game => game.Code).Where(code => !list.Contains(code)).ToList();
+                                        instance.gamesCollectionSettings[hakchi.ConsoleType.NES].OriginalGames = NesApplication.DefaultGames[hakchi.ConsoleType.NES].Where(code => !list.Contains(code)).ToList();
                                         break;
                                     case "hiddengamesfamicom":
                                         list = value.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToList();
-                                        instance.gamesCollectionSettings[hakchi.ConsoleType.Famicom].OriginalGames = NesApplication.defaultFamicomGames.Select(game => game.Code).Where(code => !list.Contains(code)).ToList();
+                                        instance.gamesCollectionSettings[hakchi.ConsoleType.Famicom].OriginalGames = NesApplication.DefaultGames[hakchi.ConsoleType.Famicom].Where(code => !list.Contains(code)).ToList();
                                         break;
                                     case "hiddengamessnes":
                                         list = value.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToList();
-                                        instance.gamesCollectionSettings[hakchi.ConsoleType.SNES_EUR].OriginalGames = NesApplication.defaultSnesGames.Select(game => game.Code).Where(code => !list.Contains(code)).ToList();
-                                        instance.gamesCollectionSettings[hakchi.ConsoleType.SNES_USA].OriginalGames = NesApplication.defaultSnesGames.Select(game => game.Code).Where(code => !list.Contains(code)).ToList();
+                                        instance.gamesCollectionSettings[hakchi.ConsoleType.SNES_EUR].OriginalGames = NesApplication.DefaultGames[hakchi.ConsoleType.SNES_EUR].Where(code => !list.Contains(code)).ToList();
+                                        instance.gamesCollectionSettings[hakchi.ConsoleType.SNES_USA].OriginalGames = NesApplication.DefaultGames[hakchi.ConsoleType.SNES_USA].Where(code => !list.Contains(code)).ToList();
                                         break;
                                     case "hiddengamessuperfamicom":
                                         list = value.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToList();
-                                        instance.gamesCollectionSettings[hakchi.ConsoleType.SuperFamicom].OriginalGames =
-                                            NesApplication.defaultSuperFamicomGames.Select(game => game.Code).Where(code => !list.Contains(code)).ToList();
+                                        instance.gamesCollectionSettings[hakchi.ConsoleType.SuperFamicom].OriginalGames = NesApplication.DefaultGames[hakchi.ConsoleType.SuperFamicom].Where(code => !list.Contains(code)).ToList();
                                         break;
                                     case "originalgamesposition":
                                         instance.OriginalGamesPosition = (MainForm.OriginalGamesPosition)byte.Parse(value);

@@ -459,19 +459,19 @@ namespace com.clusterrr.hakchi_gui
             }
 
             string cachePath = Path.Combine(Program.BaseDirectoryExternal, "games_cache");
-            var games = new NesMenuCollection();
-            foreach (NesDefaultGame game in NesApplication.DefaultGames)
+            var gameCodes = new List<string>();
+            foreach (var code in NesApplication.CurrentDefaultGames)
             {
-                if (!Directory.Exists(Path.Combine(cachePath, game.Code)))
-                    games.Add(game);
+                if (!Directory.Exists(Path.Combine(cachePath, code)))
+                    gameCodes.Add(code);
             }
 
-            if (games.Count > 0)
+            if (gameCodes.Count > 0)
             {
                 using (var tasker = new Tasks.Tasker(this))
                 {
                     var task = new Tasks.GameCacheTask();
-                    task.Games = games;
+                    task.GameCodes = gameCodes;
                     tasker.AttachView(new Tasks.TaskerTaskbar());
                     tasker.AttachView(new Tasks.TaskerForm());
                     tasker.AddTask(task.UpdateLocal);
@@ -1903,25 +1903,25 @@ namespace com.clusterrr.hakchi_gui
                 if (conclusion == Tasks.Tasker.Conclusion.Success)
                 {
                     if (!ConfigIni.Instance.SelectedOriginalGamesForConsole(hakchi.ConsoleType.NES).Any())
-                        AddDefaultsToSelectedGames(NesApplication.defaultNesGames, ConfigIni.Instance.SelectedOriginalGamesForConsole(hakchi.ConsoleType.NES));
+                        AddDefaultsToSelectedGames(NesApplication.DefaultGames[hakchi.ConsoleType.NES], ConfigIni.Instance.SelectedOriginalGamesForConsole(hakchi.ConsoleType.NES));
                     if (!ConfigIni.Instance.SelectedOriginalGamesForConsole(hakchi.ConsoleType.Famicom).Any())
-                        AddDefaultsToSelectedGames(NesApplication.defaultFamicomGames, ConfigIni.Instance.SelectedOriginalGamesForConsole(hakchi.ConsoleType.Famicom));
+                        AddDefaultsToSelectedGames(NesApplication.DefaultGames[hakchi.ConsoleType.Famicom], ConfigIni.Instance.SelectedOriginalGamesForConsole(hakchi.ConsoleType.Famicom));
                     if (!ConfigIni.Instance.SelectedOriginalGamesForConsole(hakchi.ConsoleType.SNES_EUR).Any())
-                        AddDefaultsToSelectedGames(NesApplication.defaultSnesGames, ConfigIni.Instance.SelectedOriginalGamesForConsole(hakchi.ConsoleType.SNES_EUR));
+                        AddDefaultsToSelectedGames(NesApplication.DefaultGames[hakchi.ConsoleType.SNES_EUR], ConfigIni.Instance.SelectedOriginalGamesForConsole(hakchi.ConsoleType.SNES_EUR));
                     if (!ConfigIni.Instance.SelectedOriginalGamesForConsole(hakchi.ConsoleType.SNES_USA).Any())
-                        AddDefaultsToSelectedGames(NesApplication.defaultSnesGames, ConfigIni.Instance.SelectedOriginalGamesForConsole(hakchi.ConsoleType.SNES_USA));
+                        AddDefaultsToSelectedGames(NesApplication.DefaultGames[hakchi.ConsoleType.SNES_USA], ConfigIni.Instance.SelectedOriginalGamesForConsole(hakchi.ConsoleType.SNES_USA));
                     if (!ConfigIni.Instance.SelectedOriginalGamesForConsole(hakchi.ConsoleType.SuperFamicom).Any())
-                        AddDefaultsToSelectedGames(NesApplication.defaultSuperFamicomGames, ConfigIni.Instance.SelectedOriginalGamesForConsole(hakchi.ConsoleType.SuperFamicom));
+                        AddDefaultsToSelectedGames(NesApplication.DefaultGames[hakchi.ConsoleType.SuperFamicom], ConfigIni.Instance.SelectedOriginalGamesForConsole(hakchi.ConsoleType.SuperFamicom));
                 }
             }
             LoadGames();
         }
 
-        private void AddDefaultsToSelectedGames(NesDefaultGame[] games, ICollection<string> selectedGames)
+        private void AddDefaultsToSelectedGames(string[] games, ICollection<string> selectedGames)
         {
-            foreach (NesDefaultGame game in games)
+            foreach (string game in games)
             {
-                if (!selectedGames.Contains(game.Code)) selectedGames.Add(game.Code);
+                if (!selectedGames.Contains(game)) selectedGames.Add(game);
             }
         }
 
@@ -2283,8 +2283,8 @@ namespace com.clusterrr.hakchi_gui
                         return;
                     }
                     var gameNames = new Dictionary<string, string>();
-                    foreach (var game in NesApplication.AllDefaultGames)
-                        gameNames[game.Code] = game.Name;
+                    //foreach (var game in NesApplication.AllDefaultGames)
+                    //    gameNames[game.Code] = game.Name;
                     foreach (ListViewItem item in listViewGames.Items)
                     {
                         if (item.Tag is NesApplication)

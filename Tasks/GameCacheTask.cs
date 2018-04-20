@@ -12,14 +12,14 @@ namespace com.clusterrr.hakchi_gui.Tasks
 {
     public class GameCacheTask
     {
-        public NesMenuCollection Games
+        public List<string> GameCodes
         {
             get; set;
         }
 
         public GameCacheTask()
         {
-            Games = new NesMenuCollection();
+            GameCodes = new List<string>();
         }
 
         public Tasker.Conclusion UpdateLocal(Tasker tasker, Object SyncObject = null)
@@ -46,9 +46,9 @@ namespace com.clusterrr.hakchi_gui.Tasks
                 }
 
                 int i = 0;
-                foreach (NesDefaultGame game in Games)
+                foreach (var code in GameCodes)
                 {
-                    string gamePath = Path.Combine(cachePath, game.Code);
+                    string gamePath = Path.Combine(cachePath, code);
 
                     if (!Directory.Exists(gamePath))
                     {
@@ -57,7 +57,7 @@ namespace com.clusterrr.hakchi_gui.Tasks
                             Directory.CreateDirectory(gamePath);
                             using (var tar = new MemoryStream())
                             {
-                                string cmd = $"cd {gamesCloverPath}/{game.Code} && tar -c *";
+                                string cmd = $"cd {gamesCloverPath}/{code} && tar -c *";
                                 shell.Execute(cmd, null, tar, null, 10000, true);
                                 tar.Seek(0, SeekOrigin.Begin);
                                 using (var szExtractorTar = new SevenZipExtractor(tar))
@@ -75,7 +75,7 @@ namespace com.clusterrr.hakchi_gui.Tasks
                         }
                     }
 
-                    tasker.SetProgress(++i, Games.Count);
+                    tasker.SetProgress(++i, GameCodes.Count);
                 }
             }
             catch (Exception ex)

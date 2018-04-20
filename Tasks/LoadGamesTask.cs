@@ -158,12 +158,26 @@ namespace com.clusterrr.hakchi_gui.Tasks
 
             // list original game directories
             var originalGameDirs = new List<string>();
-            foreach (var defaultGame in NesApplication.DefaultGames)
+            if (ConfigIni.Instance.SeparateGameStorage)
             {
-                string gameDir = Path.Combine(NesApplication.OriginalGamesDirectory, defaultGame.Code);
-                if (Directory.Exists(gameDir))
-                    originalGameDirs.Add(gameDir);
+                foreach (var defaultGame in NesApplication.CurrentDefaultGames)
+                {
+                    string gameDir = Path.Combine(NesApplication.OriginalGamesDirectory, defaultGame);
+                    if (Directory.Exists(gameDir))
+                        originalGameDirs.Add(gameDir);
+                }
             }
+
+            // list cached original games directories
+            //if (ConfigIni.Instance.IncludeCachedGames)
+            //{
+            //    foreach (var cachedGameDir in Directory.EnumerateDirectories(NesApplication.OriginalGamesCacheDirectory, "*.*", SearchOption.TopDirectoryOnly))
+            //    {
+            //        string originalGameDir = Path.Combine(NesApplication.OriginalGamesDirectory, Path.GetFileName(cachedGameDir));
+            //        if (!originalGameDirs.Contains(originalGameDir) && File.Exists(Path.Combine(cachedGameDir, Path.GetFileName(cachedGameDir) + ".sfrom")))
+            //            originalGameDirs.Add(originalGameDir);
+            //    }
+            //}
 
             // add custom games
             Directory.CreateDirectory(NesApplication.GamesDirectory);

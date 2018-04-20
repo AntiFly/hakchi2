@@ -23,140 +23,190 @@ namespace com.clusterrr.hakchi_gui
         public static bool? NeedAutoDownloadCover;
         public static string[] CachedCoverFiles;
 
-        public static NesDefaultGame[] defaultNesGames = new NesDefaultGame[] {
-            new NesDefaultGame { Code = "CLV-P-NAAAE",  Name = "Super Mario Bros." },
-            new NesDefaultGame { Code = "CLV-P-NAACE",  Name = "Super Mario Bros. 3" },
-            new NesDefaultGame { Code = "CLV-P-NAADE",  Name = "Super Mario Bros. 2" },
-            new NesDefaultGame { Code = "CLV-P-NAAEE",  Name = "Donkey Kong" },
-            new NesDefaultGame { Code = "CLV-P-NAAFE",  Name = "Donkey Kong Jr." },
-            new NesDefaultGame { Code = "CLV-P-NAAHE",  Name = "Excitebike" },
-            new NesDefaultGame { Code = "CLV-P-NAANE",  Name = "The Legend of Zelda" },
-            new NesDefaultGame { Code = "CLV-P-NAAPE",  Name = "Kirby's Adventure" },
-            new NesDefaultGame { Code = "CLV-P-NAAQE",  Name = "Metroid" },
-            new NesDefaultGame { Code = "CLV-P-NAARE",  Name = "Balloon Fight" },
-            new NesDefaultGame { Code = "CLV-P-NAASE",  Name = "Zelda II - The Adventure of Link" },
-            new NesDefaultGame { Code = "CLV-P-NAATE",  Name = "Punch-Out!! Featuring Mr. Dream" },
-            new NesDefaultGame { Code = "CLV-P-NAAUE",  Name = "Ice Climber" },
-            new NesDefaultGame { Code = "CLV-P-NAAVE",  Name = "Kid Icarus" },
-            new NesDefaultGame { Code = "CLV-P-NAAWE",  Name = "Mario Bros." },
-            new NesDefaultGame { Code = "CLV-P-NAAXE",  Name = "Dr. MARIO" },
-            new NesDefaultGame { Code = "CLV-P-NAAZE",  Name = "StarTropics" },
-            new NesDefaultGame { Code = "CLV-P-NABBE",  Name = "MEGA MAN™ 2" },
-            new NesDefaultGame { Code = "CLV-P-NABCE",  Name = "GHOSTS'N GOBLINS™" },
-            new NesDefaultGame { Code = "CLV-P-NABJE",  Name = "FINAL FANTASY®" },
-            new NesDefaultGame { Code = "CLV-P-NABKE",  Name = "BUBBLE BOBBLE"  },
-            new NesDefaultGame { Code = "CLV-P-NABME",  Name = "PAC-MAN" },
-            new NesDefaultGame { Code = "CLV-P-NABNE",  Name = "Galaga" },
-            new NesDefaultGame { Code = "CLV-P-NABQE",  Name = "Castlevania" },
-            new NesDefaultGame { Code = "CLV-P-NABRE",  Name = "GRADIUS" },
-            new NesDefaultGame { Code = "CLV-P-NABVE",  Name = "Super C" },
-            new NesDefaultGame { Code = "CLV-P-NABXE",  Name = "Castlevania II Simon's Quest" },
-            new NesDefaultGame { Code = "CLV-P-NACBE",  Name = "NINJA GAIDEN" },
-            new NesDefaultGame { Code = "CLV-P-NACDE",  Name = "TECMO BOWL" },
-            new NesDefaultGame { Code = "CLV-P-NACHE",  Name = "DOUBLE DRAGON II: The Revenge" }
-        };
-        public static NesDefaultGame[] defaultFamicomGames = new NesDefaultGame[] {
-            new NesDefaultGame { Code = "CLV-P-HAAAJ",  Name = "スーパーマリオブラザーズ" },
-            new NesDefaultGame { Code = "CLV-P-HAACJ",  Name = "スーパーマリオブラザーズ３" },
-            new NesDefaultGame { Code = "CLV-P-HAADJ",  Name = "スーパーマリオＵＳＡ" },
-            new NesDefaultGame { Code = "CLV-P-HAAEJ",  Name = "ドンキーコング"  },
-            new NesDefaultGame { Code = "CLV-P-HAAHJ",  Name = "エキサイトバイク"  },
-            new NesDefaultGame { Code = "CLV-P-HAAMJ",  Name = "マリオオープンゴルフ"  },
-            new NesDefaultGame { Code = "CLV-P-HAANJ",  Name = "ゼルダの伝説"  },
-            new NesDefaultGame { Code = "CLV-P-HAAPJ",  Name = "星のカービィ　夢の泉の物語"  },
-            new NesDefaultGame { Code = "CLV-P-HAAQJ",  Name = "メトロイド"  },
-            new NesDefaultGame { Code = "CLV-P-HAARJ",  Name = "バルーンファイト"  },
-            new NesDefaultGame { Code = "CLV-P-HAASJ",  Name = "リンクの冒険"  },
-            new NesDefaultGame { Code = "CLV-P-HAAUJ",  Name = "アイスクライマー"     },
-            new NesDefaultGame { Code = "CLV-P-HAAWJ",  Name = "マリオブラザーズ"  },
-            new NesDefaultGame { Code = "CLV-P-HAAXJ",  Name = "ドクターマリオ"    },
-            new NesDefaultGame { Code = "CLV-P-HABBJ",  Name = "ロックマン®2 Dr.ワイリーの謎"   },
-            new NesDefaultGame { Code = "CLV-P-HABCJ",  Name = "魔界村®"    },
-            new NesDefaultGame { Code = "CLV-P-HABLJ",  Name = "ファイナルファンタジー®III"  },
-            new NesDefaultGame { Code = "CLV-P-HABMJ",  Name = "パックマン"  },
-            new NesDefaultGame { Code = "CLV-P-HABNJ",  Name = "ギャラガ" },
-            new NesDefaultGame { Code = "CLV-P-HABQJ",  Name = "悪魔城ドラキュラ" },
-            new NesDefaultGame { Code = "CLV-P-HABRJ",  Name = "グラディウス" },
-            new NesDefaultGame { Code = "CLV-P-HABVJ",  Name = "スーパー魂斗羅"  },
-            new NesDefaultGame { Code = "CLV-P-HACAJ",  Name = "イー・アル・カンフー" },
-            new NesDefaultGame { Code = "CLV-P-HACBJ",  Name = "忍者龍剣伝"  },
-            new NesDefaultGame { Code = "CLV-P-HACCJ",  Name = "ソロモンの鍵"  },
-            new NesDefaultGame { Code = "CLV-P-HACEJ",  Name = "つっぱり大相撲" },
-            new NesDefaultGame { Code = "CLV-P-HACHJ",  Name = "ダブルドラゴンⅡ The Revenge" },
-            new NesDefaultGame { Code = "CLV-P-HACJJ",  Name = "ダウンタウン熱血物語"  },
-            new NesDefaultGame { Code = "CLV-P-HACLJ",  Name = "ダウンタウン熱血行進曲 それゆけ大運動会" },
-            new NesDefaultGame { Code = "CLV-P-HACPJ",  Name = "アトランチスの謎" }
-        };
-        public static NesDefaultGame[] defaultSnesGames = new NesDefaultGame[] {
-            new NesDefaultGame { Code = "CLV-P-SAAAE",  Name = "Super Mario World" },
-            new NesDefaultGame { Code = "CLV-P-SAABE",  Name = "F-ZERO" },
-            new NesDefaultGame { Code = "CLV-P-SAAEE",  Name = "The Legend of Zelda: A Link to the Past" },
-            new NesDefaultGame { Code = "CLV-P-SAAFE",  Name = "Super Mario Kart" },
-            new NesDefaultGame { Code = "CLV-P-SAAHE",  Name = "Super Metroid" },
-            new NesDefaultGame { Code = "CLV-P-SAAJE",  Name = "EarthBound" },
-            new NesDefaultGame { Code = "CLV-P-SAAKE",  Name = "Kirby's Dream Course" },
-            new NesDefaultGame { Code = "CLV-P-SAALE",  Name = "Donkey Kong Country" },
-            new NesDefaultGame { Code = "CLV-P-SAAQE",  Name = "Kirby Super Star" },
-            new NesDefaultGame { Code = "CLV-P-SAAXE",  Name = "Super Punch-Out!!" },
-            new NesDefaultGame { Code = "CLV-P-SABCE",  Name = "Mega Man X" },
-            new NesDefaultGame { Code = "CLV-P-SABDE",  Name = "Super Ghouls'n Ghosts" },
-            new NesDefaultGame { Code = "CLV-P-SABHE",  Name = "Street Fighter II Turbo: Hyper Fighting" },
-            new NesDefaultGame { Code = "CLV-P-SABQE",  Name = "Super Mario RPG: Legend of the Seven Stars" },
-            new NesDefaultGame { Code = "CLV-P-SABRE",  Name = "Secret of Mana" },
-            new NesDefaultGame { Code = "CLV-P-SABTE",  Name = "Final Fantasy III" },
-            new NesDefaultGame { Code = "CLV-P-SACBE",  Name = "Super Castlevania IV" },
-            new NesDefaultGame { Code = "CLV-P-SACCE",  Name = "CONTRA III THE ALIEN WARS" },
-            new NesDefaultGame { Code = "CLV-P-SADGE",  Name = "Star Fox" },
-            new NesDefaultGame { Code = "CLV-P-SADJE",  Name = "Yoshi's Island" },
-            new NesDefaultGame { Code = "CLV-P-SADKE",  Name = "Star Fox 2" }
-        };
-        public static NesDefaultGame[] defaultSuperFamicomGames = new NesDefaultGame[]
+        public static Dictionary<hakchi.ConsoleType, string[]> DefaultGames = new Dictionary<hakchi.ConsoleType, string[]>()
         {
-            new NesDefaultGame { Code = "CLV-P-VAAAJ",  Name = "スーパーマリオワールド" },
-            new NesDefaultGame { Code = "CLV-P-VAABJ",  Name = "F-ZERO" },
-            new NesDefaultGame { Code = "CLV-P-VAAEJ",  Name = "ゼルダの伝説 神々のトライフォース" },
-            new NesDefaultGame { Code = "CLV-P-VAAFJ",  Name = "スーパーマリオカート" },
-            new NesDefaultGame { Code = "CLV-P-VAAGJ",  Name = "ファイアーエムブレム 紋章の謎" },
-            new NesDefaultGame { Code = "CLV-P-VAAHJ",  Name = "スーパーメトロイド" },
-            new NesDefaultGame { Code = "CLV-P-VAALJ",  Name = "スーパードンキーコング" },
-            new NesDefaultGame { Code = "CLV-P-VAAQJ",  Name = "星のカービィ スーパーデラックス" },
-            new NesDefaultGame { Code = "CLV-P-VABBJ",  Name = "スーパーストリートファイターⅡ ザ ニューチャレンジャーズ" },
-            new NesDefaultGame { Code = "CLV-P-VABCJ",  Name = "ロックマンX" },
-            new NesDefaultGame { Code = "CLV-P-VABDJ",  Name = "超魔界村" },
-            new NesDefaultGame { Code = "CLV-P-VABQJ",  Name = "スーパーマリオRPG" },
-            new NesDefaultGame { Code = "CLV-P-VABRJ",  Name = "聖剣伝説2" },
-            new NesDefaultGame { Code = "CLV-P-VABTJ",  Name = "ファイナルファンタジーVI" },
-            new NesDefaultGame { Code = "CLV-P-VACCJ",  Name = "魂斗羅スピリッツ" },
-            new NesDefaultGame { Code = "CLV-P-VACDJ",  Name = "がんばれゴエモン ゆき姫救出絵巻" },
-            new NesDefaultGame { Code = "CLV-P-VADFJ",  Name = "スーパーフォーメーションサッカー" },
-            new NesDefaultGame { Code = "CLV-P-VADGJ",  Name = "スターフォックス" },
-            new NesDefaultGame { Code = "CLV-P-VADJJ",  Name = "スーパーマリオ ヨッシーアイランド" },
-            new NesDefaultGame { Code = "CLV-P-VADKJ",  Name = "スターフォックス2" },
-            new NesDefaultGame { Code = "CLV-P-VADZJ",  Name = "パネルでポン" },
+            {
+                hakchi.ConsoleType.Famicom,
+                new string[]
+                {
+                    "CLV-P-HAAAJ",
+                    "CLV-P-HAACJ",
+                    "CLV-P-HAADJ",
+                    "CLV-P-HAAEJ",
+                    "CLV-P-HAAHJ",
+                    "CLV-P-HAAMJ",
+                    "CLV-P-HAANJ",
+                    "CLV-P-HAAPJ",
+                    "CLV-P-HAAQJ",
+                    "CLV-P-HAARJ",
+                    "CLV-P-HAASJ",
+                    "CLV-P-HAAUJ",
+                    "CLV-P-HAAWJ",
+                    "CLV-P-HAAXJ",
+                    "CLV-P-HABBJ",
+                    "CLV-P-HABCJ",
+                    "CLV-P-HABLJ",
+                    "CLV-P-HABMJ",
+                    "CLV-P-HABNJ",
+                    "CLV-P-HABQJ",
+                    "CLV-P-HABRJ",
+                    "CLV-P-HABVJ",
+                    "CLV-P-HACAJ",
+                    "CLV-P-HACBJ",
+                    "CLV-P-HACCJ",
+                    "CLV-P-HACEJ",
+                    "CLV-P-HACHJ",
+                    "CLV-P-HACJJ",
+                    "CLV-P-HACLJ",
+                    "CLV-P-HACPJ",
+                }
+            },
+            {
+                hakchi.ConsoleType.NES,
+                new string[]
+                {
+                    "CLV-P-NAAAE",
+                    "CLV-P-NAACE",
+                    "CLV-P-NAADE",
+                    "CLV-P-NAAEE",
+                    "CLV-P-NAAFE",
+                    "CLV-P-NAAHE",
+                    "CLV-P-NAANE",
+                    "CLV-P-NAAPE",
+                    "CLV-P-NAAQE",
+                    "CLV-P-NAARE",
+                    "CLV-P-NAASE",
+                    "CLV-P-NAATE",
+                    "CLV-P-NAAUE",
+                    "CLV-P-NAAVE",
+                    "CLV-P-NAAWE",
+                    "CLV-P-NAAXE",
+                    "CLV-P-NAAZE",
+                    "CLV-P-NABBE",
+                    "CLV-P-NABCE",
+                    "CLV-P-NABJE",
+                    "CLV-P-NABKE",
+                    "CLV-P-NABME",
+                    "CLV-P-NABNE",
+                    "CLV-P-NABQE",
+                    "CLV-P-NABRE",
+                    "CLV-P-NABVE",
+                    "CLV-P-NABXE",
+                    "CLV-P-NACBE",
+                    "CLV-P-NACDE",
+                    "CLV-P-NACHE",
+                }
+            },
+            {
+                hakchi.ConsoleType.SNES_EUR,
+                new string[]
+                {
+                    "CLV-P-SAAAE",
+                    "CLV-P-SAABE",
+                    "CLV-P-SAAEE",
+                    "CLV-P-SAAFE",
+                    "CLV-P-SAAHE",
+                    "CLV-P-SAAJE",
+                    "CLV-P-SAAKE",
+                    "CLV-P-SAALE",
+                    "CLV-P-SAAQE",
+                    "CLV-P-SAAXE",
+                    "CLV-P-SABCE",
+                    "CLV-P-SABDE",
+                    "CLV-P-SABHE",
+                    "CLV-P-SABQE",
+                    "CLV-P-SABRE",
+                    "CLV-P-SABTE",
+                    "CLV-P-SACBE",
+                    "CLV-P-SACCE",
+                    "CLV-P-SADGE",
+                    "CLV-P-SADJE",
+                    "CLV-P-SADKE",
+                }
+            },
+            {
+                hakchi.ConsoleType.SNES_USA,
+                new string[]
+                {
+                    "CLV-P-SAAAE",
+                    "CLV-P-SAABE",
+                    "CLV-P-SAAEE",
+                    "CLV-P-SAAFE",
+                    "CLV-P-SAAHE",
+                    "CLV-P-SAAJE",
+                    "CLV-P-SAAKE",
+                    "CLV-P-SAALE",
+                    "CLV-P-SAAQE",
+                    "CLV-P-SAAXE",
+                    "CLV-P-SABCE",
+                    "CLV-P-SABDE",
+                    "CLV-P-SABHE",
+                    "CLV-P-SABQE",
+                    "CLV-P-SABRE",
+                    "CLV-P-SABTE",
+                    "CLV-P-SACBE",
+                    "CLV-P-SACCE",
+                    "CLV-P-SADGE",
+                    "CLV-P-SADJE",
+                    "CLV-P-SADKE",
+                }
+            },
+            {
+                hakchi.ConsoleType.SuperFamicom,
+                new string[]
+                {
+                    "CLV-P-VAAAJ",
+                    "CLV-P-VAABJ",
+                    "CLV-P-VAAEJ",
+                    "CLV-P-VAAFJ",
+                    "CLV-P-VAAGJ",
+                    "CLV-P-VAAHJ",
+                    "CLV-P-VAALJ",
+                    "CLV-P-VAAQJ",
+                    "CLV-P-VABBJ",
+                    "CLV-P-VABCJ",
+                    "CLV-P-VABDJ",
+                    "CLV-P-VABQJ",
+                    "CLV-P-VABRJ",
+                    "CLV-P-VABTJ",
+                    "CLV-P-VACCJ",
+                    "CLV-P-VACDJ",
+                    "CLV-P-VADFJ",
+                    "CLV-P-VADGJ",
+                    "CLV-P-VADJJ",
+                    "CLV-P-VADKJ",
+                    "CLV-P-VADZJ",
+                }
+            },
         };
 
-        public static NesDefaultGame[] DefaultGames
+        public static string[] CurrentDefaultGames
         {
             get
             {
-                switch (ConfigIni.Instance.ConsoleType)
+                if (ConfigIni.Instance.ConsoleType != hakchi.ConsoleType.Unknown)
                 {
-                    default:
-                    case hakchi.ConsoleType.NES:
-                        return defaultNesGames;
-                    case hakchi.ConsoleType.Famicom:
-                        return defaultFamicomGames;
-                    case hakchi.ConsoleType.SNES_EUR:
-                    case hakchi.ConsoleType.SNES_USA:
-                        return defaultSnesGames;
-                    case hakchi.ConsoleType.SuperFamicom:
-                        return defaultSuperFamicomGames;
+                    return DefaultGames[ConfigIni.Instance.ConsoleType];
                 }
+                return new string[0];
             }
         }
-        public static NesDefaultGame[] AllDefaultGames
+        private static string[] allDefaultGames = null;
+        public static string[] AllDefaultGames
         {
-            get { return Shared.ConcatArrays(defaultNesGames, defaultFamicomGames, defaultSnesGames, defaultSuperFamicomGames); }
+            get
+            {
+                if (allDefaultGames == null)
+                {
+                    allDefaultGames = Shared.ConcatArrays(
+                        DefaultGames[hakchi.ConsoleType.Famicom],
+                        DefaultGames[hakchi.ConsoleType.NES],
+                        DefaultGames[hakchi.ConsoleType.SNES_EUR],
+                        DefaultGames[hakchi.ConsoleType.SuperFamicom]
+                    );
+                }
+                return allDefaultGames;
+            }
         }
 
         public static readonly string OriginalGamesDirectory = Path.Combine(Program.BaseDirectoryExternal, "games_originals");
@@ -617,14 +667,7 @@ namespace com.clusterrr.hakchi_gui
 
             isOriginalGame = false;
             isDeleting = false;
-            foreach (var og in DefaultGames)
-            {
-                if( og.Code == desktop.Code )
-                {
-                    isOriginalGame = true;
-                    break;
-                }
-            }
+            isOriginalGame = AllDefaultGames.Contains(desktop.Code);
 
             CoverArtMatches = new string[0];
             CoverArtMatchSuccess = false;

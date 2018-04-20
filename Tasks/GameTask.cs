@@ -324,7 +324,7 @@ namespace com.clusterrr.hakchi_gui.Tasks
 
             try
             {
-                var defaultGames = ResetAllOriginalGames ? NesApplication.AllDefaultGames : NesApplication.DefaultGames;
+                var defaultGames = ResetAllOriginalGames ? NesApplication.AllDefaultGames : NesApplication.CurrentDefaultGames;
 
                 using (var szExtractor = new SevenZipExtractor(desktopEntriesArchiveFile))
                 {
@@ -332,9 +332,7 @@ namespace com.clusterrr.hakchi_gui.Tasks
                     foreach (var f in szExtractor.ArchiveFileNames)
                     {
                         var code = Path.GetFileNameWithoutExtension(f);
-                        var query = defaultGames.Where(g => g.Code == code);
-
-                        if (query.Count() != 1)
+                        if (!defaultGames.Contains(code))
                             continue;
 
                         var ext = Path.GetExtension(f).ToLower();
@@ -367,7 +365,7 @@ namespace com.clusterrr.hakchi_gui.Tasks
                             }
 
                             // create game temporarily to perform cover search
-                            Debug.WriteLine(string.Format("Resetting game \"{0}\".", query.Single().Name));
+                            Debug.WriteLine(string.Format("Resetting game \"{0}\".", code));
                             var game = NesApplication.FromDirectory(path);
                             game.FindCover(code + ".desktop");
                             game.Save();
