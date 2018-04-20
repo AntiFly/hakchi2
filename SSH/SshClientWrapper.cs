@@ -222,7 +222,9 @@ namespace com.clusterrr.ssh
                         return -1;
                     }
                 }
+#if VERY_DEBUG
                 Debug.WriteLine("Error performing ping: " + ex.Message + "\r\n" + ex.StackTrace);
+#endif
             }
             return -1;
         }

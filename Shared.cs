@@ -632,7 +632,7 @@ namespace com.clusterrr.hakchi_gui
                         splitStream.RemoveStream(stdErr).AddStreams(stderr);
                         if (match.Success)
                         {
-                            SocketTransfer(hakchi.STATIC_IP, int.Parse(match.Groups[2].Value), stdin, stdout);
+                            SocketTransfer((hakchi.Shell as INetworkShell).IPAddress, int.Parse(match.Groups[2].Value), stdin, stdout);
                         }
                     }
                 }

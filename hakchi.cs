@@ -17,8 +17,9 @@ namespace com.clusterrr.hakchi_gui
 {
     public static class hakchi
     {
+        public static readonly string[] StaticIPs = new string[] { "10.234.137.10", "169.254.13.37" };
+
         public const string AVAHI_SERVICE_NAME = "_hakchi._tcp.local.";
-        public const string STATIC_IP = "10.234.137.10";
         public const string USERNAME = "root";
         public const string PASSWORD = "";
         public const long BLOCK_SIZE = 4096;
@@ -208,11 +209,14 @@ namespace com.clusterrr.hakchi_gui
             // new high-tech but slow SSH connection
             if (!ConfigIni.Instance.DisableSSHListener)
             {
-                var ssh = new SshClientWrapper(AVAHI_SERVICE_NAME, STATIC_IP, 22, USERNAME, PASSWORD) { AutoReconnect = true };
-                ssh.OnConnected += Shell_OnConnected;
-                ssh.OnDisconnected += Shell_OnDisconnected;
-                shells.Add(ssh);
-                ssh.Enabled = true;
+                foreach (var ip in StaticIPs)
+                {
+                    var ssh = new SshClientWrapper(AVAHI_SERVICE_NAME, ip, 22, USERNAME, PASSWORD) { AutoReconnect = true };
+                    ssh.OnConnected += Shell_OnConnected;
+                    ssh.OnDisconnected += Shell_OnDisconnected;
+                    shells.Add(ssh);
+                    ssh.Enabled = true;
+                }
             }
         }
 
