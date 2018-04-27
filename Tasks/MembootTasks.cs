@@ -247,6 +247,8 @@ namespace com.clusterrr.hakchi_gui.Tasks
 
         public Conclusion Memboot(Tasker tasker, Object syncObject = null)
         {
+            tasker.SetStatus(Resources.Membooting);
+
             // load appropriate kernel
             byte[] kernel;
             if (stockKernel != null && stockKernel.Length > 0)
@@ -255,29 +257,41 @@ namespace com.clusterrr.hakchi_gui.Tasks
             }
             else
             {
+                stockKernel = null; // safety
                 kernel = Shared.GetMembootImage().ToArray();
             }
 
-            tasker.SetStatus(Resources.Membooting);
-            if (hakchi.Shell.IsOnline)
+            // skip to recovery if all conditions are met
+            if (stockKernel == null && hakchi.Shell.IsOnline && hakchi.CanInteract && !hakchi.SystemEligibleForRootfsUpdate())
             {
                 // override arguments
                 string addedArgs = ConfigIni.Instance.ForceClovershell ? " hakchi-clovershell" : "";
 
-                // skip to built-in recovery if running latest version
-                if (stockKernel == null && hakchi.CanInteract && !hakchi.SystemEligibleForRootfsUpdate())
+                if (hakchi.Shell.Execute("[ -e /bin/detached ]") == 0) // detached recovery function?
                 {
-                    if (hakchi.Shell.Execute("[ -e /bin/detached ]") == 0) // detached recovery function?
+                    try
                     {
-                        try
-                        {
-                            hakchi.Shell.ExecuteSimple("/bin/detached recovery" + addedArgs, 100);
-                        }
-                        catch { } // no-op
-                        return Conclusion.Success;
+                        hakchi.Shell.ExecuteSimple("/bin/detached recovery" + addedArgs, 100);
                     }
+                    catch { } // no-op
+                    return Conclusion.Success;
                 }
+            }
 
+            // clovershell override "hex-edit" boot.img
+            if (stockKernel == null && ConfigIni.Instance.ForceClovershell)
+            {
+                kernel.InPlaceStringEdit(64, 512, 0, (string str) => {
+                    if (str.IndexOf("hakchi-shell") != -1)
+                        return str.Replace("hakchi-shell", "hakchi-clovershell");
+                    else
+                        return str + " hakchi-clovershell";
+                });
+            }
+
+            // either live memboot or through FEL
+            if (hakchi.Shell.IsOnline)
+            {
                 try
                 {
                     hakchi.Shell.ExecuteSimple("uistop");
@@ -285,39 +299,27 @@ namespace com.clusterrr.hakchi_gui.Tasks
                     hakchi.UploadFile(
                         Path.Combine(Program.BaseDirectoryInternal, "tools", "arm", "kexec.static"),
                         "/tmp/kexec/kexec");
+                    hakchi.UploadFile(
+                        Path.Combine(Program.BaseDirectoryInternal, "tools", "arm", "unpackbootimg.static"),
+                        "/tmp/kexec/unpackbootimg");
 
-                    TrackableStream kernelStream = new TrackableStream(kernel);
-                    kernelStream.OnProgress += tasker.OnProgress;
-                    if (stockKernel == null)
+                    using (TrackableStream kernelStream = new TrackableStream(kernel))
                     {
-                        hakchi.UploadFile(
-                            Path.Combine(Program.BaseDirectoryInternal, "tools", "arm", "detached-fallback"),
-                            "/tmp/kexec/detached-fallback");
-                        hakchi.UploadFile(kernelStream, "/tmp/kexec/boot.img", false);
-                        try
-                        {
-                            hakchi.Shell.ExecuteSimple("cd /tmp/kexec/; /bin/sh /tmp/kexec/detached-fallback recovery /tmp/kexec/boot.img" + addedArgs, 100);
-                        }
-                        catch { } // no-op
-                    }
-                    else
-                    {
-                        hakchi.UploadFile(
-                            Path.Combine(Program.BaseDirectoryInternal, "tools", "arm", "unpackbootimg.static"),
-                            "/tmp/kexec/unpackbootimg");
+                        kernelStream.OnProgress += tasker.OnProgress;
                         hakchi.Shell.Execute(
                             command: "cat > /tmp/kexec/boot.img; cd /tmp/kexec/; ./unpackbootimg -i boot.img",
                             stdin: kernelStream,
                             throwOnNonZero: true
                         );
-                        hakchi.Shell.ExecuteSimple("cd /tmp/kexec/ && ./kexec -l -t zImage boot.img-zImage \"--command-line=$(cat boot.img-cmdline)\" --ramdisk=boot.img-ramdisk.gz --atags", 0, true);
-                        hakchi.Shell.ExecuteSimple("cd /tmp/; umount -ar", 0);
-                        try
-                        {
-                            hakchi.Shell.ExecuteSimple("/tmp/kexec/kexec -e", 100);
-                        }
-                        catch { } // no-op
                     }
+
+                    hakchi.Shell.ExecuteSimple("cd /tmp/kexec/ && ./kexec -l -t zImage boot.img-zImage \"--command-line=$(cat boot.img-cmdline)\" --ramdisk=boot.img-ramdisk.gz --atags", 0, true);
+                    hakchi.Shell.ExecuteSimple("cd /tmp/; umount -ar", 0);
+                    try
+                    {
+                        hakchi.Shell.ExecuteSimple("/tmp/kexec/kexec -e", 100);
+                    }
+                    catch { } // no-op
                 }
                 catch
                 {
@@ -342,17 +344,6 @@ namespace com.clusterrr.hakchi_gui.Tasks
                     var newK = new byte[size];
                     Array.Copy(kernel, newK, kernel.Length);
                     kernel = newK;
-                }
-
-                // clovershell override "hex-edit" boot.img
-                if (stockKernel == null && ConfigIni.Instance.ForceClovershell)
-                {
-                    kernel.InPlaceStringEdit(64, 512, 0, (string str) => {
-                        if (str.IndexOf("hakchi-shell") != -1)
-                            return str.Replace("hakchi-shell", "hakchi-clovershell");
-                        else
-                            return str + " hakchi-clovershell";
-                    });
                 }
 
                 // upload kernel through fel

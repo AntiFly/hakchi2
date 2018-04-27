@@ -1294,9 +1294,6 @@
     <None Include="sfrom_tool\README.TXT">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="tools\arm\detached-fallback">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="tools\arm\kexec.static">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
